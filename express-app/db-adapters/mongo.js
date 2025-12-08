@@ -1,9 +1,9 @@
 const fs = require("fs");
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient, ObjectId } = require("mongodb");
 const NoSqlCrudAdapter = require("./nosql-crud-adapter");
 const SurveyStorage = require("./survey-storage");
 
-const readFileSync = filename => fs.readFileSync(filename).toString("utf8");
+const readFileSync = (filename) => fs.readFileSync(filename).toString("utf8");
 
 const dbConfig = {
   host: process.env.DATABASE_HOST || "localhost",
@@ -12,15 +12,17 @@ const dbConfig = {
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD
     ? readFileSync(process.env.DATABASE_PASSWORD)
-    : null
+    : null,
 };
 
-const url = `mongodb://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/`;
+// const url = `mongodb://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/`;
+const url = `mongodb+srv://rtisadmin:rtisPassword@iri01.zv87dhr.mongodb.net/test?retryWrites=true&w=majority&appName=test`;
 const client = new MongoClient(url);
 
 function MongoStorage() {
-  function dbConnectFunction (dbCallback) {
-    client.connect()
+  function dbConnectFunction(dbCallback) {
+    client
+      .connect()
       .then(() => {
         const db = client.db(dbConfig.database);
         dbCallback(db, () => {
@@ -35,7 +37,9 @@ function MongoStorage() {
         console.error(JSON.stringify(arguments));
       });
   }
-  const dbQueryAdapter = new NoSqlCrudAdapter(dbConnectFunction, () => new ObjectId().toString());
+  const dbQueryAdapter = new NoSqlCrudAdapter(dbConnectFunction, () =>
+    new ObjectId().toString()
+  );
   return new SurveyStorage(dbQueryAdapter);
 }
 
