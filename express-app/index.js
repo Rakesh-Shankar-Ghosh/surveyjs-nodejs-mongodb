@@ -3,8 +3,19 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoSurveyStorage = require("./db-adapters/mongo");
 const apiBaseAddress = "/api";
-
+const cors = require("cors");
 const app = express();
+
+app.use(cors()); // <-- added
+
+app.use(
+  session({
+    secret: "mysecret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
 app.use(
   session({
     secret: "mysecret",
@@ -16,12 +27,12 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-function getStorage (req) {
+function getStorage(req) {
   const storage = new MongoSurveyStorage(req.session);
   return storage;
 }
 
-function sendJsonResult (res, obj) {
+function sendJsonResult(res, obj) {
   res.setHeader("Content-Type", "application/json");
   res.send(JSON.stringify(obj));
 }
@@ -50,7 +61,7 @@ app.get(apiBaseAddress + "/changeName", (req, res) => {
   });
 });
 
-app.get(apiBaseAddress + "/create", (req, res) => {
+app.post(apiBaseAddress + "/create", (req, res) => {
   const storage = getStorage(req);
   const name = req.query["name"];
   storage.addSurvey(name, (survey) => {
