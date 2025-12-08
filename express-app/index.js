@@ -69,6 +69,17 @@ app.post(apiBaseAddress + "/create", (req, res) => {
   });
 });
 
+// app.post(apiBaseAddress + "/changeJson", (req, res) => {
+//   const storage = getStorage(req);
+//   const id = req.body.id;
+//   const json = req.body.json;
+//   storage.storeSurvey(id, null, json, (survey) => {
+//     sendJsonResult(res, survey);
+//   });
+// });
+
+
+
 app.post(apiBaseAddress + "/changeJson", (req, res) => {
   const storage = getStorage(req);
   const id = req.body.id;
@@ -77,6 +88,7 @@ app.post(apiBaseAddress + "/changeJson", (req, res) => {
     sendJsonResult(res, survey);
   });
 });
+
 
 app.post(apiBaseAddress + "/post", (req, res) => {
   const storage = getStorage(req);

@@ -8,7 +8,7 @@ const readFileSync = (filename) => fs.readFileSync(filename).toString("utf8");
 const dbConfig = {
   host: process.env.DATABASE_HOST || "localhost",
   port: process.env.DATABASE_PORT || 27017,
-  database: process.env.DATABASE_DB,
+  database: 'test',//process.env.DATABASE_DB,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD
     ? readFileSync(process.env.DATABASE_PASSWORD)
@@ -24,7 +24,8 @@ function MongoStorage() {
     client
       .connect()
       .then(() => {
-        const db = client.db(dbConfig.database);
+        // const db = client.db(dbConfig.database);
+        const db = client.db('test');
         dbCallback(db, () => {
           if (!!process.env.DATABASE_LOG) {
             console.log(arguments[0]);
