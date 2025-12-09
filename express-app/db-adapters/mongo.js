@@ -8,14 +8,16 @@ const readFileSync = filename => fs.readFileSync(filename).toString("utf8");
 const dbConfig = {
   host: process.env.DATABASE_HOST || "localhost",
   port: process.env.DATABASE_PORT || 27017,
-  database: process.env.DATABASE_DB,
+  database: 'test',//process.env.DATABASE_DB,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD
     ? readFileSync(process.env.DATABASE_PASSWORD)
     : null
 };
 
-const url = `mongodb://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/`;
+// const url = `mongodb://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/`;
+const url = `mongodb+srv://rtisadmin:rtisPassword@iri01.zv87dhr.mongodb.net/test?retryWrites=true&w=majority&appName=test`;
+
 const client = new MongoClient(url);
 
 function MongoStorage() {
