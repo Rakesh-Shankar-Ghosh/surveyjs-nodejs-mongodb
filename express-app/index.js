@@ -99,13 +99,18 @@ app.post(apiBaseAddress + "/post", (req, res) => {
   });
 });
 
-app.get(apiBaseAddress + "/delete", (req, res) => {
+
+app.delete(apiBaseAddress + "/delete", (req, res) => {
   const storage = getStorage(req);
   const id = req.query["id"];
   storage.deleteSurvey(id, () => {
     sendJsonResult(res, { id: id });
   });
 });
+
+
+
+
 
 app.get(apiBaseAddress + "/results", (req, res) => {
   const storage = getStorage(req);
